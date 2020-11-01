@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceRoot}/components/arduino/**",
+                "${workspaceRoot}/components/m5stack/M5Core2/**",
+                "${env:IDF_PATH}/components/**"
+            ],
+            "defines": [ "ESP32" ] ,
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "~/devel/toolchain/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

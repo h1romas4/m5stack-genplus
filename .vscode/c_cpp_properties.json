@@ -6,9 +6,14 @@
                 "${workspaceRoot}",
                 "${workspaceRoot}/components/arduino/**",
                 "${workspaceRoot}/components/m5stack/M5Core2/**",
+                "${workspaceFolder}/components/genplus/core/**",
+                "${workspaceFolder}/components/genplus/m5stack/**",
                 "${env:IDF_PATH}/components/**"
             ],
-            "defines": [ "ESP32" ] ,
+            "defines": [
+                "ESP32",
+                "M5STACK"
+            ],
             "intelliSenseMode": "gcc-x64",
             "compilerPath": "~/devel/toolchain/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc",
             "cStandard": "c11",

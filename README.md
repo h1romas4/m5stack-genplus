@@ -1,6 +1,8 @@
 # m5stack-genplus
 
-WIP
+[Genesis-Plus-GX](https://github.com/ekeeke/Genesis-Plus-GX) M5Stack Core2 porting
+
+![](https://raw.githubusercontent.com/h1romas4/m5stack-genplus/master/docs/boot-01.jpg)
 
 ## Require
 
@@ -41,3 +43,11 @@ CFLAGS := \
 |[esp-idf](https://github.com/espressif/esp-idf)|latest-3.3|`b64b375`|
 |[esp32-arduino](https://github.com/espressif/arduino-esp32)|latest|`3da04ce`|
 |[M5Core2](https://github.com/m5stack/M5Core2)|latest|`cc551d4`|
+
+## License
+
+[Genesis-Plus-GX](https://github.com/ekeeke/Genesis-Plus-GX/blob/master/LICENSE.txt) License
+
+## Thanks!
+
+[Genesis-Plus-GX](https://github.com/ekeeke/Genesis-Plus-GX)

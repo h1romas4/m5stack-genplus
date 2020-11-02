@@ -41,6 +41,9 @@
 
 #include "shared.h"
 #include "hvc.h"
+#ifdef M5STACK
+#include "esp_attr.h"
+#endif
 
 /* Mark a pattern as modified */
 #define MARK_BG_DIRTY(addr)                         \
@@ -54,11 +57,19 @@
 }
 
 /* VDP context */
+#ifdef M5STACK
+EXT_RAM_ATTR uint8 ALIGNED_(4) sat[0x400];    /* Internal copy of sprite attribute table */
+EXT_RAM_ATTR uint8 ALIGNED_(4) vram[0x10000]; /* Video RAM (64K x 8-bit) */
+EXT_RAM_ATTR uint8 ALIGNED_(4) cram[0x80];    /* On-chip color RAM (64 x 9-bit) */
+EXT_RAM_ATTR uint8 ALIGNED_(4) vsram[0x80];   /* On-chip vertical scroll RAM (40 x 11-bit) */
+EXT_RAM_ATTR uint8 reg[0x20];                 /* Internal VDP registers (23 x 8-bit) */
+#else
 uint8 ALIGNED_(4) sat[0x400];    /* Internal copy of sprite attribute table */
 uint8 ALIGNED_(4) vram[0x10000]; /* Video RAM (64K x 8-bit) */
 uint8 ALIGNED_(4) cram[0x80];    /* On-chip color RAM (64 x 9-bit) */
 uint8 ALIGNED_(4) vsram[0x80];   /* On-chip vertical scroll RAM (40 x 11-bit) */
 uint8 reg[0x20];                 /* Internal VDP registers (23 x 8-bit) */
+#endif
 uint8 hint_pending;              /* 0= Line interrupt is pending */
 uint8 vint_pending;              /* 1= Frame interrupt is pending */
 uint16 status;                   /* VDP status flags */

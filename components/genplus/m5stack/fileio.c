@@ -2,12 +2,13 @@
 #include <string.h>
 #include <stdint.h>
 #include <types.h>
+#include "esp_attr.h"
 #include "loadrom.h"
 #include "fileio.h"
 #include "genplus_main.h"
 
 /* TODO: */
-unsigned char romfile[MAXROMSIZE];
+EXT_RAM_ATTR unsigned char romfile[MAXROMSIZE];
 
 int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension)
 {

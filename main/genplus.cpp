@@ -2,6 +2,7 @@
 extern "C" {
 #include "genplus_main.h"
 #include "fileio.h"
+#include "esp_attr.h"
 }
 
 #define SOUND_FREQUENCY 48000
@@ -10,8 +11,8 @@ extern "C" {
 #define VIDEO_WIDTH  320
 #define VIDEO_HEIGHT 240
 
-static uint16_t frame_buffer[VIDEO_WIDTH * VIDEO_HEIGHT];
-static short sound_buffer[SOUND_SAMPLES_SIZE];
+EXT_RAM_ATTR static uint16_t frame_buffer[VIDEO_WIDTH * VIDEO_HEIGHT];
+EXT_RAM_ATTR static short sound_buffer[SOUND_SAMPLES_SIZE];
 
 void setup()
 {

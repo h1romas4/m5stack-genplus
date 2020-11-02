@@ -7,7 +7,7 @@
 ** Copyright (C) 2001, 2002, 2003 Jarek Burczynski (bujar at mame dot net)
 ** Copyright (C) 1998 Tatsuyuki Satoh , MultiArcadeMachineEmulator development
 **
-** Version 1.4 (final beta) 
+** Version 1.4 (final beta)
 **
 ** Additional code & fixes by Eke-Eke for Genesis Plus GX
 **
@@ -36,7 +36,7 @@
 ** 12-03-2017 Eke-Eke (Genesis Plus GX):
 **  - fixed Op1 self-feedback regression introduced by previous modifications
 **  - removed one-sample extra delay on Op1 calculated output
-**  - refactored chan_calc() function 
+**  - refactored chan_calc() function
 **
 ** 01-09-2012 Eke-Eke (Genesis Plus GX):
 **  - removed input clock / output samplerate frequency ratio, chip now always run at (original) internal sample frequency
@@ -53,7 +53,7 @@
 **  - adjusted lowest EG rates increment values
 **  - fixed Attack Rate not being updated in some specific cases (Batman & Robin intro)
 **  - fixed EG behavior when Attack Rate is maximal
-**  - fixed EG behavior when SL=0 (Mega Turrican tracks 03,09...) or/and Key ON occurs at minimal attenuation 
+**  - fixed EG behavior when SL=0 (Mega Turrican tracks 03,09...) or/and Key ON occurs at minimal attenuation
 **  - implemented EG output immediate changes on register writes
 **  - fixed YM2612 initial values (after the reset): fixes missing intro in B.O.B
 **  - implemented Detune overflow (Ariel, Comix Zone, Shaq Fu, Spiderman & many other games using GEMS sound engine)
@@ -145,6 +145,9 @@
 /************************************************************************/
 
 #include "shared.h"
+#ifdef M5STACK
+#include "esp_attr.h"
+#endif
 
 /* envelope generator */
 #define ENV_BITS    10
@@ -180,11 +183,17 @@
 *   TL_RES_LEN - sinus resolution (X axis)
 */
 #define TL_TAB_LEN (13*2*TL_RES_LEN)
+#ifdef M5STACK
+EXT_RAM_ATTR
+#endif
 static signed int tl_tab[TL_TAB_LEN];
 
 #define ENV_QUIET    (TL_TAB_LEN>>3)
 
 /* sin waveform table in 'decibel' scale */
+#ifdef M5STACK
+EXT_RAM_ATTR
+#endif
 static unsigned int sin_tab[SIN_LEN];
 
 /* sustain level table (3dB per step) */
@@ -478,7 +487,11 @@ static const UINT8 lfo_pm_output[7*8][8]={
 };
 
 /* all 128 LFO PM waveforms */
+#ifdef M5STACK
+EXT_RAM_ATTR static INT32 lfo_pm_table[128*8*32]; /* 128 combinations of 7 bits meaningful (of F-NUMBER), 8 LFO depths, 32 LFO output levels per one depth */
+#else
 static INT32 lfo_pm_table[128*8*32]; /* 128 combinations of 7 bits meaningful (of F-NUMBER), 8 LFO depths, 32 LFO output levels per one depth */
+#endif
 
 /* register number to channel number , slot offset */
 #define OPN_CHAN(N) (N&3)
@@ -852,9 +865,9 @@ INLINE void set_timers(int v )
     ym2612.OPN.ST.TAC = ym2612.OPN.ST.TAL;
   if ((v&2) && !(ym2612.OPN.ST.mode&2))
     ym2612.OPN.ST.TBC = ym2612.OPN.ST.TBL;
-  
+
   /* reset Timers flags */
-  ym2612.OPN.ST.status &= (~v >> 4); 
+  ym2612.OPN.ST.status &= (~v >> 4);
 
   ym2612.OPN.ST.mode = v;
 }
@@ -1019,7 +1032,7 @@ INLINE void set_sr(FM_SLOT *SLOT,int v)
 INLINE void set_sl_rr(FM_SLOT *SLOT,int v)
 {
   SLOT->sl = sl_table[ v>>4 ];
-  
+
   /* check EG state changes */
   if ((SLOT->state == EG_DEC) && (SLOT->volume >= (INT32)(SLOT->sl)))
     SLOT->state = EG_SUS;
@@ -1290,7 +1303,7 @@ INLINE void update_ssg_eg_channels(FM_CH *CH)
 INLINE void update_phase_lfo_slot(FM_SLOT *SLOT, UINT32 pm, UINT8 kc, UINT32 fc)
 {
   INT32 lfo_fn_offset = lfo_pm_table[((fc & 0x7f0) << 4) + pm];
-  
+
   if (lfo_fn_offset)  /* LFO phase modulation active */
   {
     /* block is not modified by LFO PM */
@@ -1314,7 +1327,7 @@ INLINE void update_phase_lfo_slot(FM_SLOT *SLOT, UINT32 pm, UINT8 kc, UINT32 fc)
 INLINE void update_phase_lfo_channel(FM_CH *CH)
 {
   UINT32 fc = CH->block_fnum;
-  
+
   INT32 lfo_fn_offset = lfo_pm_table[((fc & 0x7f0) << 4) + CH->pms + ym2612.OPN.LFO_PM];
 
   if (lfo_fn_offset)  /* LFO phase modulation active */
@@ -1855,7 +1868,7 @@ static void init_tables(void)
       UINT32 offset_fnum_bit;
       UINT32 bit_tmp;
 
-      for (step=0; step<8; step++) 
+      for (step=0; step<8; step++)
       {
         value = 0;
         for (bit_tmp=0; bit_tmp<7; bit_tmp++) /* 7 bits */
@@ -1926,7 +1939,7 @@ void YM2612ResetChip(void)
 
   ym2612.dacen            = 0;
   ym2612.dacout           = 0;
- 
+
   set_timers(0x30);
   ym2612.OPN.ST.TB = 0;
   ym2612.OPN.ST.TBL = 256 << 4;
@@ -2014,7 +2027,7 @@ void YM2612Update(int *buffer, int length)
     refresh_fc_eg_chan(&ym2612.CH[2]);
   }
   else
-  {  
+  {
     /* 3SLOT MODE (operator order is 0,1,3,2) */
     if(ym2612.CH[2].SLOT[SLOT1].Incr==-1)
     {

@@ -126,6 +126,9 @@
  *****************************************************************************/
 #include "shared.h"
 #include "z80.h"
+#ifdef M5STACK
+#include "esp_attr.h"
+#endif
 
 /* execute main opcodes inside a big switch statement */
 #define BIG_SWITCH 1
@@ -221,6 +224,16 @@ unsigned char (*z80_readport)(unsigned int port);
 
 static UINT32 EA;
 
+#ifdef M5STACK
+EXT_RAM_ATTR static UINT8 SZ[256];       /* zero and sign flags */
+EXT_RAM_ATTR static UINT8 SZ_BIT[256];   /* zero, sign and parity/overflow (=zero) flags for BIT opcode */
+EXT_RAM_ATTR static UINT8 SZP[256];      /* zero, sign and parity flags */
+EXT_RAM_ATTR static UINT8 SZHV_inc[256]; /* zero, sign, half carry and overflow flags INC r8 */
+EXT_RAM_ATTR static UINT8 SZHV_dec[256]; /* zero, sign, half carry and overflow flags DEC r8 */
+
+EXT_RAM_ATTR static UINT8 SZHVC_add[2*256*256]; /* flags for ADD opcode */
+EXT_RAM_ATTR static UINT8 SZHVC_sub[2*256*256]; /* flags for SUB opcode */
+#else
 static UINT8 SZ[256];       /* zero and sign flags */
 static UINT8 SZ_BIT[256];   /* zero, sign and parity/overflow (=zero) flags for BIT opcode */
 static UINT8 SZP[256];      /* zero, sign and parity flags */
@@ -229,6 +242,7 @@ static UINT8 SZHV_dec[256]; /* zero, sign, half carry and overflow flags DEC r8 
 
 static UINT8 SZHVC_add[2*256*256]; /* flags for ADD opcode */
 static UINT8 SZHVC_sub[2*256*256]; /* flags for SUB opcode */
+#endif
 
 static const UINT16 cc_op[0x100] = {
    4*15,10*15, 7*15, 6*15, 4*15, 4*15, 7*15, 4*15, 4*15,11*15, 7*15, 6*15, 4*15, 4*15, 7*15, 4*15,
@@ -3413,7 +3427,7 @@ void z80_reset(void)
 }
 
 /****************************************************************************
- * Run until given cycle count 
+ * Run until given cycle count
  ****************************************************************************/
 void z80_run(unsigned int cycles)
 {
@@ -3430,7 +3444,7 @@ void z80_run(unsigned int cycles)
     R++;
     EXEC_INLINE(op,ROP());
   }
-} 
+}
 
 /****************************************************************************
  * Get all registers in given buffer

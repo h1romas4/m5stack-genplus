@@ -42,6 +42,9 @@
 #include "shared.h"
 #include "md_ntsc.h"
 #include "sms_ntsc.h"
+#ifdef M5STACK
+#include "esp_attr.h"
+#endif
 
 #ifndef HAVE_NO_SPRITE_LIMIT
 #define MAX_SPRITES_PER_LINE 20
@@ -561,16 +564,28 @@ static const uint32 tms_palette[16] =
 #endif
 
 /* Cached and flipped patterns */
+#ifdef M5STACK
+EXT_RAM_ATTR static uint8 ALIGNED_(4) bg_pattern_cache[0x80000];
+#else
 static uint8 ALIGNED_(4) bg_pattern_cache[0x80000];
+#endif
 
 /* Sprite pattern name offset look-up table (Mode 5) */
 static uint8 name_lut[0x400];
 
 /* Bitplane to packed pixel look-up table (Mode 4) */
+#ifdef M5STACK
+EXT_RAM_ATTR static uint32 bp_lut[0x10000];
+#else
 static uint32 bp_lut[0x10000];
+#endif
 
 /* Layer priority pixel look-up tables */
+#ifdef M5STACK
+EXT_RAM_ATTR static uint8 lut[LUT_MAX][LUT_SIZE];
+#else
 static uint8 lut[LUT_MAX][LUT_SIZE];
+#endif
 
 /* Output pixel data look-up tables*/
 static PIXEL_OUT_T pixel[0x100];

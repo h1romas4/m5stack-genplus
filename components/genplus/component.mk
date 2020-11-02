@@ -58,10 +58,11 @@ CFLAGS := \
     -DUSE_16BPP_RENDERING \
     -DMAXROMSIZE=131072 \
     -DHAVE_ALLOCA_H \
-    -DUSE_DYNAMIC_ALLOC \
     -DALT_RENDERER \
     -DALIGN_LONG \
     -DM5STACK \
     -fomit-frame-pointer \
     -Wno-strict-aliasing \
     -mlongcalls
+
+#    -DUSE_DYNAMIC_ALLOC \

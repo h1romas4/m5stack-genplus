@@ -40,15 +40,28 @@
  ****************************************************************************************/
 
 #include "shared.h"
+#ifdef M5STACK
+#include "esp_attr.h"
+#endif
 
 #ifdef USE_DYNAMIC_ALLOC
 external_t *ext;
 #else                     /* External Hardware (Cartridge, CD unit, ...) */
+#ifdef M5STACK
+EXT_RAM_ATTR external_t ext;
+#else
 external_t ext;
 #endif
+#endif
+#ifdef M5STACK
+EXT_RAM_ATTR uint8 boot_rom[0x800];    /* Genesis BOOT ROM   */
+EXT_RAM_ATTR uint8 work_ram[0x10000];  /* 68K RAM  */
+EXT_RAM_ATTR uint8 zram[0x2000];       /* Z80 RAM  */
+#else                     /* External Hardware (Cartridge, CD unit, ...) */
 uint8 boot_rom[0x800];    /* Genesis BOOT ROM   */
 uint8 work_ram[0x10000];  /* 68K RAM  */
 uint8 zram[0x2000];       /* Z80 RAM  */
+#endif
 uint32 zbank;             /* Z80 bank window address */
 uint8 zstate;             /* Z80 bus state (d0 = BUSACK, d1 = /RESET) */
 uint8 pico_current;       /* PICO current page */

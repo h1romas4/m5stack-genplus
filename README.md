@@ -19,21 +19,6 @@ export IDF_PATH=$(pwd)/esp-idf
 make flash monitor
 ```
 
-## Run
-
-`main/genplus.cpp`
-```
-    // load rom (TODO: ROM SIZE FIXED 131072 BYTE)
-    File fs = SD.open("/COLUMNS.BIN");
-    fs.read(get_romfile(), 131072);
-```
-
-`components/genplus/component.mk`
-```
-CFLAGS := \
-    -DMAXROMSIZE=131072 \
-```
-
 ## Dependencies
 
 |name|version|hash|

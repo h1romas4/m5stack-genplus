@@ -28,6 +28,9 @@ to do:
 /** EkeEke (2011): removed multiple chips support, cleaned code & added FM board interface for Genesis Plus GX **/
 
 #include "shared.h"
+#ifdef M5STACK
+#include "esp_attr.h"
+#endif
 
 #define FREQ_SH 16  /* 16.16 fixed point (frequency calculations) */
 #define EG_SH   16  /* 16.16 fixed point (EG timing)              */
@@ -62,7 +65,7 @@ to do:
 #define EG_REL      1
 #define EG_OFF      0
 
-typedef struct 
+typedef struct
 {
   UINT32  ar;       /* attack rate: AR<<2           */
   UINT32  dr;       /* decay rate:  DR<<2           */
@@ -107,7 +110,7 @@ typedef struct
   unsigned int wavetable;
 } YM2413_OPLL_SLOT;
 
-typedef struct 
+typedef struct
 {
   YM2413_OPLL_SLOT SLOT[2];
 
@@ -341,12 +344,18 @@ static const UINT8 mul_tab[16]= {
 *  TL_RES_LEN - sinus resolution (X axis)
 */
 #define TL_TAB_LEN (11*2*TL_RES_LEN)
+#ifdef M5STACK
+EXT_RAM_ATTR
+#endif
 static signed int tl_tab[TL_TAB_LEN];
 
 #define ENV_QUIET    (TL_TAB_LEN>>5)
 
 /* sin waveform table in 'decibel' scale */
 /* two waveforms on OPLL type chips */
+#ifdef M5STACK
+EXT_RAM_ATTR
+#endif
 static unsigned int sin_tab[SIN_LEN * 2];
 
 

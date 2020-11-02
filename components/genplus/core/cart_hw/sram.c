@@ -49,8 +49,8 @@ T_SRAM sram;
  *  1B4h:   dc.l   RAM start address
  *  1B8h:   dc.l   RAM end address
  *   x 1 for BACKUP (not volatile), 0 for volatile RAM
- *   yz 10 if even address only 
- *      11 if odd address only 
+ *   yz 10 if even address only
+ *      11 if odd address only
  *      00 if both even and odd address
  *      01 others (serial EEPROM, RAM with 4-bit data bus, etc)
  *   abc 001 if SRAM
@@ -62,7 +62,9 @@ T_SRAM sram;
 void sram_init()
 {
   memset(&sram, 0, sizeof (T_SRAM));
-
+#ifdef M5STACK
+  return;
+#endif
   /* backup RAM data is stored above cartridge ROM area, at $800000-$80FFFF (max. 64K) */
   if (cart.romsize > 0x800000) return;
   sram.sram = cart.rom + 0x800000;
@@ -139,7 +141,7 @@ void sram_init()
       sram.start = 0x200001;
       sram.end = 0x203fff;
     }
-    else if (((rominfo.realchecksum == 0xaeaa) || (rominfo.realchecksum == 0x8dba)) && 
+    else if (((rominfo.realchecksum == 0xaeaa) || (rominfo.realchecksum == 0x8dba)) &&
              (rominfo.checksum ==  0x8104))
     {
       /* Xin Qigai Wangzi (use uncommon area) */

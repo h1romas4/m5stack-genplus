@@ -16,13 +16,21 @@ EXT_RAM_ATTR static short sound_buffer[SOUND_SAMPLES_SIZE];
 
 void setup()
 {
+    // init M5stack
     M5.begin();
-    unsigned char* ptr = get_romfile();
+    // load rom (TODO: ROM SIZE FIXED 131072 BYTE)
+    File fs = SD.open("/COLUMNS.BIN");
+    fs.read(get_romfile(), 131072);
+    // initialize emulator
     genplus_init(frame_buffer, VIDEO_WIDTH, VIDEO_HEIGHT, SOUND_FREQUENCY);
 }
 
 void loop()
 {
+    // update M5Stack
     M5.update();
+    // update emulator
     genplus_loop(sound_buffer);
+    // display
+    M5.Lcd.drawBitmap(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT, frame_buffer);
 }

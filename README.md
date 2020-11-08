@@ -13,6 +13,8 @@ gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-96-g2852398)
 
 ## Build
 
+![](https://github.com/h1romas4/m5stack-genplus/workflows/M5Stack/badge.svg)
+
 ```
 git clone --recursive https://github.com/h1romas4/m5stack-genplus.git
 cd m5stack-genplus

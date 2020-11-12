@@ -1,25 +1,27 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "M5Stack Core2",
             "includePath": [
-                "${workspaceRoot}",
-                "${workspaceRoot}/components/arduino/**",
-                "${workspaceRoot}/components/m5stack/M5Core2/**",
-                "${workspaceFolder}/components/genplus/core/**",
-                "${workspaceFolder}/components/genplus/m5stack/**",
-                "${env:IDF_PATH}/components/**"
+                "${workspaceFolder}/build/include",
+                "${workspaceFolder}/components/arduino/cores/**",
+                "${workspaceFolder}/components/arduino/libraries/**",
+                "${workspaceFolder}/components/arduino/variants/esp32",
+                "${workspaceFolder}/components/m5stack/M5Core2/**",
+                "${workspaceFolder}/esp-idf/components/**"
             ],
             "defines": [
-                "ESP32",
+                "ESP32=1",
+                "ARDUINO_ARCH_ESP32=1",
+                "BOARD_HAS_PSRAM",
+                "ARDUINO=10800",
                 "M5STACK",
                 "LSB_FIRST",
                 "USE_16BPP_RENDERING",
                 "MAXROMSIZE=131072",
                 "HAVE_ALLOCA_H",
                 "ALT_RENDERER",
-                "ALIGN_LONG",
-                "CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY"
+                "ALIGN_LONG"
             ],
             "intelliSenseMode": "gcc-x64",
             "compilerPath": "~/devel/toolchain/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc",

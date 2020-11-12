@@ -9,7 +9,6 @@ jobs:
     - uses: actions/checkout@v1
       with:
         submodules: recursive
-
     - name: esp-idf Toolchain Setup
       run: |
         sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-pip python-setuptools python-serial python-cryptography python-future

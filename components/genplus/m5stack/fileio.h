@@ -42,7 +42,7 @@
 #ifndef _FILEIO_H_
 #define _FILEIO_H_
 
-unsigned char* get_romfile();
+unsigned char* get_rom_area();
 
 /* Function prototypes */
 extern int load_archive(char *filename, unsigned char *buffer, int maxsize, char *extension);

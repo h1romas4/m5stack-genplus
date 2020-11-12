@@ -24,7 +24,7 @@ int load_archive(char *filename, unsigned char *buffer, int maxsize, char *exten
 }
 
 /* TODO: */
-unsigned char* get_romfile()
+unsigned char* get_rom_area()
 {
     return romfile;
 }

@@ -20,9 +20,11 @@ void setup()
     M5.begin();
     // load rom (TODO: ROM SIZE FIXED 131072 BYTE)
     File fs = SD.open("/COLUMNS.BIN");
-    fs.read(get_romfile(), 131072);
+    fs.read(get_rom_area(), 131072);
     // initialize emulator
     genplus_init(frame_buffer, VIDEO_WIDTH, VIDEO_HEIGHT, SOUND_FREQUENCY);
+    // close fs
+    fs.close();
 }
 
 void loop()

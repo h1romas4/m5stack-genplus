@@ -29,7 +29,7 @@ make flash monitor
 ```
     // load rom (TODO: ROM SIZE FIXED 131072 BYTE)
     File fs = SD.open("/COLUMNS.BIN");
-    fs.read(get_romfile(), 131072);
+    fs.read(get_rom_area(), 131072);
 ```
 
 `components/genplus/component.mk`

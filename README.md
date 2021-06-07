@@ -42,9 +42,9 @@ CFLAGS := \
 
 |name|version|hash|
 |-|-|-|
-|[esp-idf](https://github.com/espressif/esp-idf)|latest-3.3|`b64b375`|
-|[arduino-esp32](https://github.com/espressif/arduino-esp32)|latest|`3da04ce`|
-|[M5Core2](https://github.com/m5stack/M5Core2)|latest|`cc551d4`|
+|[esp-idf](https://github.com/espressif/esp-idf)|3.3.5||
+|[arduino-esp32](https://github.com/espressif/arduino-esp32)|1.0.6||
+|[M5Core2](https://github.com/m5stack/M5Core2)|latest|`54b958b`|
 
 ## License
 
